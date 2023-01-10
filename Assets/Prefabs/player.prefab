@@ -206,6 +206,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 100
-  ground_collider: {fileID: 6503024322864365082}
-  jump_strength: 35
-  jump_delay: 0.1
+  groundCollider: {fileID: 6503024322864365082}
+  jumpStrength: 35
+  jumpDelay: 0.1
+  connectingPrefab: {fileID: 7560468863812818203, guid: 48b92ec21e18dde4b98d076c68a2df99, type: 3}
+  connectionPrefab: {fileID: 4830727792642306405, guid: 747a5a98cb5ade94595f6e6adadc7646, type: 3}

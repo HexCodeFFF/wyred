@@ -1,26 +1,55 @@
 ﻿using System;
+using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public class Player : MonoBehaviour
 {
-    public float speed = 3.0f;
-    public BoxCollider2D ground_collider;
-    public float jump_strength = 3f;
-    public float jump_delay = 0.2f;
+    public float speed = 100f;
+    public BoxCollider2D groundCollider;
+    public float jumpStrength = 35f;
+    public float jumpDelay = 0.1f;
+
+    public ConnectingLine connectingPrefab;
+    public ConnectionLine connectionPrefab;
 
     private Rigidbody2D _rigidbody2d;
+    private BoxCollider2D _boxCollider2D;
     private float _horizontal;
     private float _vertical;
     private float _jump;
-    private float time_since_last_jump = 0;
+    private bool _connect;
+    private ConnectingLine _connectingLine = null;
+    private float _timeSinceLastJump = 0;
 
     private bool _grounded = false;
 
     private void Start()
     {
         _rigidbody2d = GetComponent<Rigidbody2D>();
+        _boxCollider2D = GetComponent<BoxCollider2D>();
+    }
+
+    private ConnectionPoint GetTouchingPoint()
+    {
+        List<Collider2D> touching = new List<Collider2D>();
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.NoFilter();
+        // this shit dosent work? huh
+        // filter.SetLayerMask(LayerMask.GetMask("Connection Points"));
+        // filter.useLayerMask = true;
+        _boxCollider2D.OverlapCollider(filter, touching);
+        foreach (var coll in touching)
+        {
+            if (coll.gameObject.layer == LayerMask.NameToLayer("Connection Points"))
+            {
+                return coll.GetComponentInParent<ConnectionPoint>();
+            }
+        }
+
+        return null;
     }
 
     private void Update()
@@ -28,18 +57,35 @@ public class Player : MonoBehaviour
         _horizontal = Input.GetAxis("Horizontal");
         _vertical = Input.GetAxis("Vertical");
         _jump = Input.GetAxis("Jump");
-        time_since_last_jump += Time.deltaTime;
+        _timeSinceLastJump += Time.deltaTime;
+
+        _connect = Input.GetButtonDown("Fire1");
+        if (_connect // user pushed connect button
+            && _rigidbody2d.IsTouchingLayers(LayerMask.GetMask("Connection Points")) // we're touching a point
+           )
+        {
+            ConnectionPoint point = GetTouchingPoint();
+            if (_connectingLine) // we're holding a line
+            {
+            }
+            else // make a new line
+            {
+                Instantiate(connectingPrefab);
+                _connectingLine.player = this;
+                _connectingLine.point = point;
+            }
+        }
     }
 
 
     private void FixedUpdate()
     {
-        _grounded = ground_collider.IsTouchingLayers(LayerMask.GetMask("Ground")) && time_since_last_jump >= jump_delay;
+        _grounded = groundCollider.IsTouchingLayers(LayerMask.GetMask("Ground")) && _timeSinceLastJump >= jumpDelay;
         if (_grounded && (_jump > 0 || _vertical > 0))
         {
-            _rigidbody2d.AddForce(new Vector2(0, jump_strength), ForceMode2D.Impulse);
+            _rigidbody2d.AddForce(new Vector2(0, jumpStrength), ForceMode2D.Impulse);
             _grounded = false;
-            time_since_last_jump = 0;
+            _timeSinceLastJump = 0;
         }
 
         _rigidbody2d.AddForce(new Vector2((_horizontal) * speed, 0));

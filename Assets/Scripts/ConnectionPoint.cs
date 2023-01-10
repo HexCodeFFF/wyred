@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 // a point that can be connected to a line or something else
 public class ConnectionPoint : MonoBehaviour
 {
     public Sprite offSprite;
     public Sprite onSprite;
-    public bool is_output;
-    public ConnectionLine[] connections = {};
+    [FormerlySerializedAs("is_output")] public bool isOutput;
+    // connections
+    public List<ConnectionLine> outputs = new List<ConnectionLine>();
+    public ConnectionLine input;
     public bool on { get; private set; } = false;
     private SpriteRenderer _renderer;
 
@@ -18,14 +23,12 @@ public class ConnectionPoint : MonoBehaviour
 
     void UpdateConnectedLines()
     {
-        if (is_output)
+        foreach (var line in outputs)
         {
-            foreach (var line in connections)
-            {
-                line.UpdateState();
-            }
+            line.UpdateState();
         }
     }
+
     void Off()
     {
         _renderer.sprite = offSprite;
