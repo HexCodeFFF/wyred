@@ -65,14 +65,35 @@ public class Player : MonoBehaviour
            )
         {
             ConnectionPoint point = GetTouchingPoint();
-            if (_connectingLine) // we're holding a line
+            if (point)
             {
-            }
-            else // make a new line
-            {
-                Instantiate(connectingPrefab);
-                _connectingLine.player = this;
-                _connectingLine.point = point;
+                if (_connectingLine) // we're holding a line
+                {
+                    if (point.isOutput ^ _connectingLine.point.isOutput) // if only one is output
+                    {
+                        ConnectionPoint otherPoint = _connectingLine.point;
+                        Destroy(_connectingLine.gameObject);
+                        _connectingLine = null;
+                        ConnectionLine line = Instantiate(connectionPrefab);
+                        ConnectionPoint inpoint = !point.isOutput ? point : otherPoint;
+                        ConnectionPoint outpoint = point.isOutput ? point : otherPoint;
+                        line.input = inpoint;
+                        line.output = outpoint;
+                        if (inpoint.input)
+                        {
+                            Destroy(inpoint.input.gameObject);
+                            inpoint.input = line;
+                        }
+                        outpoint.outputs.Add(line);
+                        line.UpdateState();
+                    }
+                }
+                else // make a new line
+                {
+                    _connectingLine = Instantiate(connectingPrefab);
+                    _connectingLine.player = this;
+                    _connectingLine.point = point;
+                }
             }
         }
     }

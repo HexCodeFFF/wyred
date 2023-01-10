@@ -21,7 +21,7 @@ public class ConnectionPoint : MonoBehaviour
         SetState(false);
     }
 
-    void UpdateConnectedLines()
+    public void UpdateConnectedLines()
     {
         foreach (var line in outputs)
         {

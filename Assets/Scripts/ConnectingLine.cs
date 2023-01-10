@@ -10,7 +10,8 @@ public class ConnectingLine : MonoBehaviour, Line
     private void Start()
     {
         _renderer = GetComponent<LineRenderer>();
-        _renderer.startColor = _renderer.endColor = Color.black;
+        _renderer.startColor =  Color.black;
+        _renderer.endColor = Color.black;
     }
 
     private void Update()

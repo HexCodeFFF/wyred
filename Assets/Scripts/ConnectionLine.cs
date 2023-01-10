@@ -11,13 +11,15 @@ public class ConnectionLine : MonoBehaviour, Line
     {
         _renderer = GetComponent<LineRenderer>();
         _renderer.SetPositions(new[] { input.transform.position, output.transform.position });
-        _renderer.startColor = _renderer.endColor = Color.black;
+        _renderer.startColor =  Color.black;
+        _renderer.endColor = Color.black;
     }
 
 
     public void UpdateState()
     {
-        output.SetState(input.on);
-        _renderer.startColor = _renderer.endColor = input.on ? Color.yellow : Color.black;
+        output.SetState(input.on);//TODO: there's gonna be a recursion issue here that will totally freeze the game
+        _renderer.startColor = input.on ? Color.yellow : Color.black;
+        _renderer.endColor = _renderer.startColor;
     }
 }
