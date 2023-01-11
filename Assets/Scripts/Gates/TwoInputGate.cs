@@ -23,6 +23,7 @@ public class TwoInputGate : MonoBehaviour, IGate
     {
         IN1.outputs.Add(this);
         IN2.outputs.Add(this);
+        UpdateState();
     }
 
     // Update is called once per frame

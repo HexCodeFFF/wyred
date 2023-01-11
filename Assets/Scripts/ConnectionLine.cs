@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 // a line actively connecting two ConnectionPoints
@@ -16,6 +17,7 @@ public class ConnectionLine : MonoBehaviour, Line, IUpdatable
         _renderer.SetPositions(new[] { input.transform.position, output.transform.position });
         _renderer.startColor =  Color.black;
         _renderer.endColor = Color.black;
+        UpdateState();
     }
 
     public void UpdateState()
@@ -34,7 +36,12 @@ public class ConnectionLine : MonoBehaviour, Line, IUpdatable
         yield return new WaitForSeconds(updateDelay);
         _waitingToUpdate = false;
         output.SetState(input.on);
-        _renderer.startColor = input.on ? Color.yellow : Color.black;
+        // _renderer.startColor = input.on ? Color.yellow : Color.black;
         _renderer.endColor = _renderer.startColor;
+    }
+
+    public void OnDestroy()
+    {
+        input.outputs.Remove(this);
     }
 }
