@@ -10,7 +10,7 @@ public class ConnectionPoint : MonoBehaviour
     public Sprite onSprite;
     [FormerlySerializedAs("is_output")] public bool isOutput;
     // connections
-    public List<ConnectionLine> outputs = new List<ConnectionLine>();
+    public List<IUpdatable> outputs = new List<IUpdatable>();
     public ConnectionLine input;
     public bool on { get; private set; } = false;
     private SpriteRenderer _renderer;
@@ -21,7 +21,7 @@ public class ConnectionPoint : MonoBehaviour
         SetState(false);
     }
 
-    public void UpdateConnectedLines()
+    public void UpdateConnected()
     {
         foreach (var line in outputs)
         {
@@ -33,14 +33,14 @@ public class ConnectionPoint : MonoBehaviour
     {
         _renderer.sprite = offSprite;
         on = false;
-        UpdateConnectedLines();
+        UpdateConnected();
     }
 
     void On()
     {
         _renderer.sprite = onSprite;
         on = true;
-        UpdateConnectedLines();
+        UpdateConnected();
     }
 
     public void SetState(bool state)
@@ -53,5 +53,10 @@ public class ConnectionPoint : MonoBehaviour
         {
             Off();
         }
+    }
+
+    public void Toggle()
+    {
+        SetState(!on);
     }
 }

@@ -146,3 +146,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   input: {fileID: 0}
   output: {fileID: 0}
+  updateDelay: 0.1

@@ -1,5 +1,5 @@
 ﻿
-public interface IGate
+public interface IGate: IUpdatable
 {
-    public void UpdateState();
+    
 }

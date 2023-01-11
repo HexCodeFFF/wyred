@@ -77,13 +77,13 @@ public class Player : MonoBehaviour
                         ConnectionLine line = Instantiate(connectionPrefab);
                         ConnectionPoint inpoint = !point.isOutput ? point : otherPoint;
                         ConnectionPoint outpoint = point.isOutput ? point : otherPoint;
-                        line.input = inpoint;
-                        line.output = outpoint;
+                        line.input = outpoint;
+                        line.output = inpoint;
                         if (inpoint.input)
                         {
                             Destroy(inpoint.input.gameObject);
-                            inpoint.input = line;
                         }
+                        inpoint.input = line;
                         outpoint.outputs.Add(line);
                         line.UpdateState();
                     }

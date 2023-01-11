@@ -21,7 +21,8 @@ public class TwoInputGate : MonoBehaviour, IGate
     // Start is called before the first frame update
     void Start()
     {
-        
+        IN1.outputs.Add(this);
+        IN2.outputs.Add(this);
     }
 
     // Update is called once per frame
