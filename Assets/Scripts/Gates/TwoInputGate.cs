@@ -32,9 +32,9 @@ public class TwoInputGate : MonoBehaviour, IGate
         
     }
 
-    public void UpdateState(float updateDelay, int depth=100)
+    public void UpdateState(float updateDelay, int depth=-1)
     {
-        if (depth <= 0)
+        if (depth == 0)
         {
             return;
         }

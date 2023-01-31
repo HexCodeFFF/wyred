@@ -123,6 +123,11 @@ public class Player : MonoBehaviour
         _grounded = groundCollider.IsTouchingLayers(LayerMask.GetMask("Ground")) && _timeSinceLastJump >= jumpDelay;
         if (_grounded && (_jump > 0 || _vertical > 0))
         {
+            // cancel Y velocity
+            Vector2 vel = _rigidbody2d.velocity;
+            vel.y = 0;
+            _rigidbody2d.velocity = vel;
+            // Impulse force up
             _rigidbody2d.AddForce(new Vector2(0, jumpStrength), ForceMode2D.Impulse);
             _grounded = false;
             _timeSinceLastJump = 0;

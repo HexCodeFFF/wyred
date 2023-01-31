@@ -11,9 +11,9 @@ public class Level : MonoBehaviour
         public List<bool> input;
         public List<bool> expectedOutput;
     }
-    public List<ConnectionPoint> inputs = new List<ConnectionPoint>();
-    public List<ConnectionPoint> outputs = new List<ConnectionPoint>();
-    public List<truthEntry> truthTable = new List<truthEntry>();
+    public List<ConnectionPoint> inputs = new();
+    public List<ConnectionPoint> outputs = new();
+    public List<truthEntry> truthTable = new();
 
     public bool Test()
     {
@@ -28,7 +28,7 @@ public class Level : MonoBehaviour
             // update the connections instantly
             for (int i = 0; i < inputs.Count; i++)
             {
-                inputs[i].UpdateConnected(0);
+                inputs[i].UpdateConnected(0, 100);
             }
             // check if output is correct
             for (int i = 0; i < outputs.Count; i++)

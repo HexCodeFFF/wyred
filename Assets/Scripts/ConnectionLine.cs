@@ -20,9 +20,9 @@ public class ConnectionLine : MonoBehaviour, ILine, IUpdatable
         UpdateState();
     }
 
-    public void UpdateState(float updateDelay=0.1f, int depth=100)
+    public void UpdateState(float updateDelay=0.1f, int depth=-1)
     {
-        if (depth <= 0)
+        if (depth == 0)
         {
             return;
         }
@@ -32,26 +32,26 @@ public class ConnectionLine : MonoBehaviour, ILine, IUpdatable
             _waitingToUpdate = true;
             if (updateDelay > 0)
             {
-                StartCoroutine(WaitToUpdate(updateDelay, depth));
+                StartCoroutine(WaitToUpdate(input.on, updateDelay, depth));
             }
             else
             {
-                ReallyUpdate(updateDelay, depth);
+                ReallyUpdate(input.on, updateDelay, depth);
             }
             
         }
     }
-    IEnumerator WaitToUpdate(float updateDelay, int depth=100)
+    IEnumerator WaitToUpdate(bool state, float updateDelay, int depth = 100)
     {
         // small intentional delay to allow loops to not break the game
         yield return new WaitForSeconds(updateDelay);
-        ReallyUpdate(updateDelay, depth);
+        ReallyUpdate(state, updateDelay, depth);
     }
 
-    void ReallyUpdate(float updateDelay, int depth = 100)
+    void ReallyUpdate(bool state, float updateDelay, int depth = 100)
     {
         _waitingToUpdate = false;
-        output.SetState(input.on);
+        output.SetState(state);
         output.UpdateConnected(updateDelay, depth-1);
         // _renderer.startColor = input.on ? Color.yellow : Color.black;
         _renderer.endColor = _renderer.startColor;

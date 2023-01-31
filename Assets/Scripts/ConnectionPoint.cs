@@ -22,9 +22,9 @@ public class ConnectionPoint : MonoBehaviour
         UpdateConnected(0f);
     }
 
-    public void UpdateConnected(float updateDelay = 0.1f, int depth=100)
+    public void UpdateConnected(float updateDelay = 0.1f, int depth=-1)
     {
-        if (depth <= 0)
+        if (depth == 0)
         {
             return;
         }
