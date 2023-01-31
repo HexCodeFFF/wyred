@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
     public ConnectingLine connectingPrefab;
     public ConnectionLine connectionPrefab;
 
+    public Level level;
+
     private Rigidbody2D _rigidbody2d;
     private BoxCollider2D _boxCollider2D;
     private float _horizontal;
@@ -60,44 +62,56 @@ public class Player : MonoBehaviour
         _timeSinceLastJump += Time.deltaTime;
 
         _connect = Input.GetButtonDown("Fire1");
-        if (_connect // user pushed connect button
-            && _rigidbody2d.IsTouchingLayers(LayerMask.GetMask("Connection Points")) // we're touching a point
-           )
+        if (_connect) // user pushed connect button
         {
-            ConnectionPoint point = GetTouchingPoint();
-            if (point)
+            // we're touching a point
+            if (_rigidbody2d.IsTouchingLayers(LayerMask.GetMask("Connection Points")))
             {
-                if (_connectingLine) // we're holding a line
+                ConnectionPoint point = GetTouchingPoint();
+                if (point)
                 {
-                    if (point.isOutput ^ _connectingLine.point.isOutput) // if only one is output
+                    if (_connectingLine) // we're holding a line
                     {
-                        ConnectionPoint otherPoint = _connectingLine.point;
-                        Destroy(_connectingLine.gameObject);
-                        _connectingLine = null;
-                        ConnectionLine line = Instantiate(connectionPrefab);
-                        ConnectionPoint inpoint = !point.isOutput ? point : otherPoint;
-                        ConnectionPoint outpoint = point.isOutput ? point : otherPoint;
-                        line.input = outpoint;
-                        line.output = inpoint;
-                        if (inpoint.input)
+                        if (point.isOutput ^ _connectingLine.point.isOutput) // if only one is output
                         {
-                            Destroy(inpoint.input.gameObject);
+                            ConnectionPoint otherPoint = _connectingLine.point;
+                            Destroy(_connectingLine.gameObject);
+                            _connectingLine = null;
+                            ConnectionLine line = Instantiate(connectionPrefab);
+                            ConnectionPoint inpoint = !point.isOutput ? point : otherPoint;
+                            ConnectionPoint outpoint = point.isOutput ? point : otherPoint;
+                            line.input = outpoint;
+                            line.output = inpoint;
+                            if (inpoint.input)
+                            {
+                                Destroy(inpoint.input.gameObject);
+                            }
+
+                            inpoint.input = line;
+                            outpoint.outputs.Add(line);
+                            line.UpdateState();
                         }
-                        inpoint.input = line;
-                        outpoint.outputs.Add(line);
-                        line.UpdateState();
+                    }
+                    else // make a new line
+                    {
+                        _connectingLine = Instantiate(connectingPrefab);
+                        _connectingLine.player = this;
+                        _connectingLine.point = point;
+                        if (!point.isOutput && point.input)
+                        {
+                            Destroy(point.input.gameObject);
+                            point.input = null;
+                        }
                     }
                 }
-                else // make a new line
+            }
+            else // no point found
+            {
+                // destroy held line
+                if (_connectingLine)
                 {
-                    _connectingLine = Instantiate(connectingPrefab);
-                    _connectingLine.player = this;
-                    _connectingLine.point = point;
-                    if (!point.isOutput && point.input)
-                    {
-                        Destroy(point.input.gameObject);
-                        point.input = null;
-                    }
+                    Destroy(_connectingLine.gameObject);
+                    _connectingLine = null;
                 }
             }
         }
@@ -117,6 +131,13 @@ public class Player : MonoBehaviour
         _rigidbody2d.AddForce(new Vector2((_horizontal) * speed, 0));
     }
 
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.layer == LayerMask.NameToLayer("Test Button"))
+        {
+            Debug.Log(level.Test());
+        }
+    }
     // private bool IsGrounded()
     // {
     //     Physics2D.OverlapBox(_rigidbody2d.position - _rigidbody2d.)

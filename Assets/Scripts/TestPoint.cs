@@ -17,5 +17,6 @@ public class TestPoint : MonoBehaviour
     private void TogglePoint()
     {
         _point.Toggle();
+        _point.UpdateConnected();
     }
 }

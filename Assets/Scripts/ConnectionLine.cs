@@ -30,13 +30,26 @@ public class ConnectionLine : MonoBehaviour, ILine, IUpdatable
         if (!_waitingToUpdate)
         {
             _waitingToUpdate = true;
-            StartCoroutine(ReallyUpdate(updateDelay, depth));
+            if (updateDelay > 0)
+            {
+                StartCoroutine(WaitToUpdate(updateDelay, depth));
+            }
+            else
+            {
+                ReallyUpdate(updateDelay, depth);
+            }
+            
         }
     }
-    public IEnumerator ReallyUpdate(float updateDelay, int depth=100)
+    IEnumerator WaitToUpdate(float updateDelay, int depth=100)
     {
         // small intentional delay to allow loops to not break the game
         yield return new WaitForSeconds(updateDelay);
+        ReallyUpdate(updateDelay, depth);
+    }
+
+    void ReallyUpdate(float updateDelay, int depth = 100)
+    {
         _waitingToUpdate = false;
         output.SetState(input.on);
         output.UpdateConnected(updateDelay, depth-1);
