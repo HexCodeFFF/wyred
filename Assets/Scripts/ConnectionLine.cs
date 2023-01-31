@@ -3,12 +3,12 @@ using System.Collections;
 using UnityEngine;
 
 // a line actively connecting two ConnectionPoints
-public class ConnectionLine : MonoBehaviour, Line, IUpdatable
+public class ConnectionLine : MonoBehaviour, ILine, IUpdatable
 {
     public ConnectionPoint input;
     public ConnectionPoint output;
     private LineRenderer _renderer;
-    public float updateDelay = 0.0f;
+    public float defaultUpdateDelay = 0.0f;
     private bool _waitingToUpdate = false;
 
     private void Start()
@@ -20,22 +20,26 @@ public class ConnectionLine : MonoBehaviour, Line, IUpdatable
         UpdateState();
     }
 
-    public void UpdateState()
+    public void UpdateState(float updateDelay=0.1f, int depth=100)
     {
+        if (depth <= 0)
+        {
+            return;
+        }
         _renderer.startColor = input.on ? Color.yellow : Color.black;
         if (!_waitingToUpdate)
         {
-            
             _waitingToUpdate = true;
-            StartCoroutine(ReallyUpdate());
+            StartCoroutine(ReallyUpdate(updateDelay, depth));
         }
     }
-    public IEnumerator ReallyUpdate()
+    public IEnumerator ReallyUpdate(float updateDelay, int depth=100)
     {
         // small intentional delay to allow loops to not break the game
         yield return new WaitForSeconds(updateDelay);
         _waitingToUpdate = false;
         output.SetState(input.on);
+        output.UpdateConnected(updateDelay, depth-1);
         // _renderer.startColor = input.on ? Color.yellow : Color.black;
         _renderer.endColor = _renderer.startColor;
     }

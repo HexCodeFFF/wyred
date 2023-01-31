@@ -23,7 +23,7 @@ public class TwoInputGate : MonoBehaviour, IGate
     {
         IN1.outputs.Add(this);
         IN2.outputs.Add(this);
-        UpdateState();
+        UpdateState(0f, 100);
     }
 
     // Update is called once per frame
@@ -32,8 +32,12 @@ public class TwoInputGate : MonoBehaviour, IGate
         
     }
 
-    public void UpdateState()
+    public void UpdateState(float updateDelay, int depth=100)
     {
+        if (depth <= 0)
+        {
+            return;
+        }
         bool in1 = IN1.on;
         bool in2 = IN2.on;
         bool result = false;
@@ -59,5 +63,6 @@ public class TwoInputGate : MonoBehaviour, IGate
                 break;
         }
         OUT.SetState(result);
+        OUT.UpdateConnected(updateDelay, depth-1);
     }
 }

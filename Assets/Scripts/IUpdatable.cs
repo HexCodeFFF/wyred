@@ -1,4 +1,4 @@
 ﻿public interface IUpdatable
 {
-    public void UpdateState();
+    public void UpdateState(float updateDelay, int depth);
 }

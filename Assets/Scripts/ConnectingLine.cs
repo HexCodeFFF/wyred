@@ -2,7 +2,7 @@
 using UnityEngine;
 
 // a Line between a point and the player, a connection that the Player is currently making.
-public class ConnectingLine : MonoBehaviour, Line
+public class ConnectingLine : MonoBehaviour, ILine
 {
     public ConnectionPoint point;
     public Player player;

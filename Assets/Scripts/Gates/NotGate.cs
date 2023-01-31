@@ -8,10 +8,15 @@ public class NotGate : MonoBehaviour, IGate
     void Start()
     {
         IN.outputs.Add(this);
-        UpdateState();
+        UpdateState(0f, 100);
     }
-    public void UpdateState()
+    public void UpdateState(float updateDelay, int depth=100)
     {
+        if (depth <= 0)
+        {
+            return;
+        }
         OUT.SetState(!IN.on);
+        OUT.UpdateConnected(updateDelay, depth-1);
     }
 }

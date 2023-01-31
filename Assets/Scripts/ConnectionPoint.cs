@@ -19,13 +19,18 @@ public class ConnectionPoint : MonoBehaviour
     {
         _renderer = GetComponent<SpriteRenderer>();
         SetState(false);
+        UpdateConnected(0f);
     }
 
-    public void UpdateConnected()
+    public void UpdateConnected(float updateDelay = 0.1f, int depth=100)
     {
+        if (depth <= 0)
+        {
+            return;
+        }
         foreach (var line in outputs)
         {
-            line.UpdateState();
+            line.UpdateState(updateDelay, depth-1);
         }
     }
 
@@ -33,14 +38,12 @@ public class ConnectionPoint : MonoBehaviour
     {
         _renderer.sprite = offSprite;
         on = false;
-        UpdateConnected();
     }
 
     void On()
     {
         _renderer.sprite = onSprite;
         on = true;
-        UpdateConnected();
     }
 
     public void SetState(bool state)

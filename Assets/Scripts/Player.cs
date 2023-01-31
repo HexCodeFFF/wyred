@@ -93,6 +93,11 @@ public class Player : MonoBehaviour
                     _connectingLine = Instantiate(connectingPrefab);
                     _connectingLine.player = this;
                     _connectingLine.point = point;
+                    if (!point.isOutput && point.input)
+                    {
+                        Destroy(point.input.gameObject);
+                        point.input = null;
+                    }
                 }
             }
         }
