@@ -189,7 +189,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7747568667995801974, guid: 9080e138b37ace349b952cca2d068adb, type: 3}
   m_PrefabInstance: {fileID: 129697263}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1485870575}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 732ce524145949d2abc1857834f99c56, type: 3}
@@ -2003,24 +2003,6 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!1 &1485870575 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3438689434769381779, guid: 9080e138b37ace349b952cca2d068adb, type: 3}
-  m_PrefabInstance: {fileID: 129697263}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1485870576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1485870575}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aabf1b5ee3e144b69b242fcce8770d32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  delay: 1
 --- !u!1 &1771553143
 GameObject:
   m_ObjectHideFlags: 0
@@ -2050,6 +2032,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 993f2d642a45431791924156576877db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelName: demo level
+  levelNumber: -1
   inputs:
   - {fileID: 129697264}
   outputs:
@@ -2059,7 +2043,8 @@ MonoBehaviour:
     expectedOutput: 01
   - input: 01
     expectedOutput: 00
-  textGameObject: {fileID: 0}
+  textGameObject: {fileID: 1876909179}
+  updateSpeed: 1
 --- !u!4 &1771553145
 Transform:
   m_ObjectHideFlags: 0
@@ -2112,8 +2097,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000012057, y: 0.00000018714}
-  m_SizeDelta: {x: 230.639, y: 194.2585}
+  m_AnchoredPosition: {x: 8.9364, y: 2.5533}
+  m_SizeDelta: {x: 743.8422, y: 329.5807}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1876909181
 MonoBehaviour:
@@ -2135,7 +2120,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: testtttt
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2165,9 +2150,9 @@ MonoBehaviour:
   m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 10
+  m_fontSizeMax: 36
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -2198,7 +2183,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -1.2765579, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
