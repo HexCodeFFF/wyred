@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class Level : MonoBehaviour
@@ -21,9 +22,11 @@ public class Level : MonoBehaviour
     public List<truthEntry> truthTable = new();
     public GameObject textGameObject;
     private TextMeshProUGUI text;
+    public bool persistentText = false;
     private float _textTimeout;
     public float updateSpeed = -1;
     private int _cycleState = 0;
+    
 
     private int TwoToThe(int the)
     {
@@ -35,6 +38,7 @@ public class Level : MonoBehaviour
 
         return res;
     }
+
     private void Start()
     {
         text = textGameObject.GetComponent<TextMeshProUGUI>();
@@ -62,12 +66,12 @@ public class Level : MonoBehaviour
             inputs[i].SetState((TwoToThe(i) & _cycleState) > 0);
             inputs[i].UpdateConnected();
         }
-        
     }
+
     private void Update()
     {
         _textTimeout -= Time.deltaTime;
-        if (_textTimeout <= 0)
+        if (_textTimeout <= 0 && !persistentText)
         {
             text.text = "";
         }
@@ -129,8 +133,37 @@ public class Level : MonoBehaviour
         }
 
         text.text += correct ? "Level Complete!" : "Uh oh, something's wrong";
-        // no mismatches found, must be true.
         _textTimeout = 5f;
+        if (correct)
+        {
+            Invoke("NextLevel", 5);
+        }
+
         return correct;
+    }
+
+    public void NextLevel()
+    {
+        persistentText = true;
+        text.text = "Loading...";
+        Scene scene = SceneManager.GetSceneAt(levelNumber + 1);
+        if (scene.IsValid())
+        {
+            SceneManager.LoadScene(levelNumber + 1);
+        }
+        else
+        {
+            text.text = "You Win!";
+        }
+        
+        // SceneManager.LoadScene(nextlevel);
+        // if (scene.IsValid())
+        // {
+        //     SceneManager.SetActiveScene(scene);
+        // }
+        // else
+        // {
+        //     text.text = "You Win!";
+        // }
     }
 }
