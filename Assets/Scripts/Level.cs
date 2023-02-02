@@ -21,12 +21,13 @@ public class Level : MonoBehaviour
     public List<ConnectionPoint> outputs = new();
     public List<truthEntry> truthTable = new();
     public GameObject textGameObject;
-    private TextMeshProUGUI text;
+    private TextMeshProUGUI _text;
     public bool persistentText = false;
     private float _textTimeout;
     public float updateSpeed = -1;
     private int _cycleState = 0;
-    
+    public bool complete = false;
+
 
     private int TwoToThe(int the)
     {
@@ -41,9 +42,9 @@ public class Level : MonoBehaviour
 
     private void Start()
     {
-        text = textGameObject.GetComponent<TextMeshProUGUI>();
-        text.text = $"Level {levelNumber}: {levelName}";
-        Debug.Log(text);
+        _text = textGameObject.GetComponent<TextMeshProUGUI>();
+        _text.text = $"Level {levelNumber}: {levelName}";
+        Debug.Log(_text);
         _textTimeout = 5f;
         if (updateSpeed > 0)
         {
@@ -53,6 +54,8 @@ public class Level : MonoBehaviour
 
     private void UpdateInputs()
     {
+        //TODO: suspend updates while testing truth table?
+
         // cycle through all possible iterations of the inputs via binary
         _cycleState++;
         if (_cycleState >= TwoToThe(inputs.Count))
@@ -73,23 +76,28 @@ public class Level : MonoBehaviour
         _textTimeout -= Time.deltaTime;
         if (_textTimeout <= 0 && !persistentText)
         {
-            text.text = "";
+            _text.text = "";
         }
     }
 
     public bool Test()
     {
-        text.text = "";
+        if (complete)
+        {
+            return true;
+        }
+
+        _text.text = "";
         bool correct = true;
         // for each element to test in the truth table
         foreach (var truthElement in truthTable)
         {
-            text.text += "Input: ";
+            _text.text += "Input: ";
             // setup the input nodes
             for (int i = 0; i < inputs.Count; i++)
             {
                 inputs[i].SetState(truthElement.input[i]);
-                text.text += truthElement.input[i] ? "1" : "0";
+                _text.text += truthElement.input[i] ? "1" : "0";
             }
 
             // update the connections instantly
@@ -103,40 +111,41 @@ public class Level : MonoBehaviour
             {
                 bool thisoneiscorrect = truthElement.expectedOutput[i] == outputs[i].on;
                 // // if any mismatch detected, return false
-                text.text += " | ";
+                _text.text += " | ";
                 if (!thisoneiscorrect)
                 {
                     correct = false;
-                    text.text += "<color=red>";
+                    _text.text += "<color=red>";
                 }
 
-                text.text += "Expected: ";
+                _text.text += "Expected: ";
                 foreach (var expectedBit in truthElement.expectedOutput)
                 {
-                    text.text += expectedBit ? "1" : "0";
+                    _text.text += expectedBit ? "1" : "0";
                 }
 
-                text.text += " | Actual: ";
+                _text.text += " | Actual: ";
 
                 foreach (var expectedBit in outputs)
                 {
-                    text.text += expectedBit.on ? "1" : "0";
+                    _text.text += expectedBit.on ? "1" : "0";
                 }
 
                 if (!thisoneiscorrect)
                 {
-                    text.text += "</color>";
+                    _text.text += "</color>";
                 }
 
-                text.text += "\n";
+                _text.text += "\n";
             }
         }
 
-        text.text += correct ? "Level Complete!" : "Uh oh, something's wrong";
+        _text.text += correct ? "Level Complete!" : "Uh oh, something's wrong";
         _textTimeout = 5f;
         if (correct)
         {
-            Invoke("NextLevel", 5);
+            Invoke("NextLevel", 3);
+            complete = true;
         }
 
         return correct;
@@ -145,25 +154,14 @@ public class Level : MonoBehaviour
     public void NextLevel()
     {
         persistentText = true;
-        text.text = "Loading...";
-        Scene scene = SceneManager.GetSceneAt(levelNumber + 1);
-        if (scene.IsValid())
+        _text.text = "Loading...";
+        if (levelNumber + 1 < SceneManager.sceneCountInBuildSettings)
         {
             SceneManager.LoadScene(levelNumber + 1);
         }
         else
         {
-            text.text = "You Win!";
+            _text.text = "You Win!";
         }
-        
-        // SceneManager.LoadScene(nextlevel);
-        // if (scene.IsValid())
-        // {
-        //     SceneManager.SetActiveScene(scene);
-        // }
-        // else
-        // {
-        //     text.text = "You Win!";
-        // }
     }
 }
