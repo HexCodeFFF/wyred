@@ -13,12 +13,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5080920535020383929, guid: bfb61bf4e78efb5459e67e5db7e13bee, type: 3}
       propertyPath: m_Name
-      value: XNOR
+      value: XNOR Variant
       objectReference: {fileID: 0}
     - target: {fileID: 7565355594252915706, guid: bfb61bf4e78efb5459e67e5db7e13bee, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 503ba10121ab3fc4383616001b605464, type: 3}
+      objectReference: {fileID: 21300000, guid: 628e1dc19058be2488427d05987bf1f5, type: 3}
     - target: {fileID: 9107443824343022498, guid: bfb61bf4e78efb5459e67e5db7e13bee, type: 3}
       propertyPath: m_RootOrder
       value: 0

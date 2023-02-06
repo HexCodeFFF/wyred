@@ -54,10 +54,10 @@ PrefabInstance:
     - target: {fileID: 2283914004440471412, guid: 19a305368d7c45b4a8893e6f09e3cb11, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 8dca9009cf276ac4aa03581fe0e286d5, type: 3}
+      objectReference: {fileID: 21300000, guid: 45d73a1c44e3c8046a1f5238f51c15f4, type: 3}
     - target: {fileID: 3588404860210637367, guid: 19a305368d7c45b4a8893e6f09e3cb11, type: 3}
       propertyPath: m_Name
-      value: XOR
+      value: XOR Variant
       objectReference: {fileID: 0}
     - target: {fileID: 4410421272296409993, guid: 19a305368d7c45b4a8893e6f09e3cb11, type: 3}
       propertyPath: m_LocalPosition.x

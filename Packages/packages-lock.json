@@ -171,7 +171,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
-      "version": "1.1.33",
+      "version": "1.1.31",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -220,13 +220,6 @@
         "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
-    },
-    "com.vladfaust.unitywakatime": {
-      "version": "https://github.com/vladfaust/unity-wakatime.git#package",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "4dedbeac2e2d61c5c892e517728d2c4c74ce0acc"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

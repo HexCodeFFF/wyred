@@ -58,10 +58,10 @@ PrefabInstance:
     - target: {fileID: 6881553123284952341, guid: 0614cc5beb7089a4c94338ad66cf92d4, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d76255d4b76b0da4a9d061e3c8e5df35, type: 3}
+      objectReference: {fileID: 21300000, guid: fe9bf62c66f15d34f95ff8c6a656367b, type: 3}
     - target: {fileID: 8214201240665725014, guid: 0614cc5beb7089a4c94338ad66cf92d4, type: 3}
       propertyPath: m_Name
-      value: NAND
+      value: NAND Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0614cc5beb7089a4c94338ad66cf92d4, type: 3}
