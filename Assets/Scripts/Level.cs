@@ -44,7 +44,7 @@ public class Level : MonoBehaviour
     {
         _text = textGameObject.GetComponent<TextMeshProUGUI>();
         _text.text = $"Level {levelNumber}: {levelName}";
-        Debug.Log(_text);
+        PlayerPrefs.SetInt("Level", levelNumber);
         _textTimeout = 5f;
         if (updateSpeed > 0)
         {
@@ -107,37 +107,42 @@ public class Level : MonoBehaviour
             }
 
             // check if output is correct
+            bool thisoneiscorrect = true;
             for (int i = 0; i < outputs.Count; i++)
             {
-                bool thisoneiscorrect = truthElement.expectedOutput[i] == outputs[i].on;
-                // // if any mismatch detected, return false
-                _text.text += " | ";
-                if (!thisoneiscorrect)
+                if (truthElement.expectedOutput[i] != outputs[i].on)
                 {
-                    correct = false;
-                    _text.text += "<color=red>";
+                    thisoneiscorrect = false;
+                    break;
                 }
-
-                _text.text += "Expected: ";
-                foreach (var expectedBit in truthElement.expectedOutput)
-                {
-                    _text.text += expectedBit ? "1" : "0";
-                }
-
-                _text.text += " | Actual: ";
-
-                foreach (var expectedBit in outputs)
-                {
-                    _text.text += expectedBit.on ? "1" : "0";
-                }
-
-                if (!thisoneiscorrect)
-                {
-                    _text.text += "</color>";
-                }
-
-                _text.text += "\n";
             }
+            _text.text += " | ";
+            if (!thisoneiscorrect)
+            {
+                correct = false;
+                _text.text += "<color=red>";
+            }
+
+            _text.text += "Expected: ";
+            foreach (var expectedBit in truthElement.expectedOutput)
+            {
+                _text.text += expectedBit ? "1" : "0";
+            }
+
+            _text.text += " | Actual: ";
+
+            foreach (var expectedBit in outputs)
+            {
+                _text.text += expectedBit.on ? "1" : "0";
+            }
+
+            if (!thisoneiscorrect)
+            {
+                _text.text += "</color>";
+            }
+
+            _text.text += "\n";
+
         }
 
         _text.text += correct ? "Level Complete!" : "Uh oh, something's wrong";
