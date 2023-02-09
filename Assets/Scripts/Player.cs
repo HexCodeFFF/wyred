@@ -26,14 +26,17 @@ public class Player : MonoBehaviour
     private float _timeSinceLastJump = 0;
 
     private bool _grounded = false;
-    
+
     private Animator _animator;
     private bool _facingLeft = false;
-    
+
     private static readonly int AnimationPropertyWalkSpeed = Animator.StringToHash("WalkSpeed");
     private static readonly int AnimationPropertyGrounded = Animator.StringToHash("Grounded");
     private static readonly int AnimationPropertyFaceLeft = Animator.StringToHash("FaceLeft");
     private static readonly int AnimationPropertyMoving = Animator.StringToHash("Moving");
+
+    public float animationMovementThreshold = 0.1f;
+    public float animationMovementSpeedDivisor = 10f;
 
     private void Start()
     {
@@ -64,7 +67,7 @@ public class Player : MonoBehaviour
 
     private void HandleConnection()
     {
-               _connect = Input.GetButtonDown("Fire1");
+        _connect = Input.GetButtonDown("Fire1");
         if (_connect) // user pushed connect button
         {
             // we're touching a point
@@ -98,7 +101,7 @@ public class Player : MonoBehaviour
                     else // make a new line
                     {
                         _connectingLine = Instantiate(connectingPrefab);
-                        _connectingLine.player = this;
+                        _connectingLine.playerCollider = _boxCollider2D;
                         _connectingLine.point = point;
                         if (!point.isOutput && point.input)
                         {
@@ -127,16 +130,24 @@ public class Player : MonoBehaviour
         {
             _facingLeft = false;
         }
+
         if (_horizontal < 0)
         {
             _facingLeft = true;
         }
-        _animator.SetBool(AnimationPropertyMoving, !(Math.Abs(_horizontal) < 0.1 && Math.Abs(_rigidbody2d.velocity.x) < 0.1));
+
+        _animator.SetBool(AnimationPropertyMoving,
+            !(Math.Abs(_horizontal) < animationMovementThreshold
+              && Math.Abs(_rigidbody2d.velocity.x) < animationMovementThreshold)
+        );
         _animator.SetBool(AnimationPropertyGrounded, _grounded);
         _animator.SetBool(AnimationPropertyFaceLeft, _facingLeft);
-        _animator.SetFloat(AnimationPropertyWalkSpeed, Math.Min(1, Math.Max(Math.Abs(_horizontal), Math.Abs(_rigidbody2d.velocity.x/20))));
-        Debug.Log(_rigidbody2d.velocity.x);
+        _animator.SetFloat(AnimationPropertyWalkSpeed,
+            Math.Min(1, Math.Max(Math.Abs(_horizontal),
+                Math.Abs(_rigidbody2d.velocity.x / animationMovementSpeedDivisor)))
+        );
     }
+
     private void Update()
     {
         _horizontal = Input.GetAxis("Horizontal");
@@ -145,7 +156,7 @@ public class Player : MonoBehaviour
         _timeSinceLastJump += Time.deltaTime;
 
         HandleConnection();
-        
+
         HandleAnimation();
     }
 

@@ -1,11 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 // a Line between a point and the player, a connection that the Player is currently making.
 public class ConnectingLine : MonoBehaviour, ILine
 {
     public ConnectionPoint point;
-    public Player player;
+    public BoxCollider2D playerCollider;
     private LineRenderer _renderer;
     private void Start()
     {
@@ -16,6 +15,6 @@ public class ConnectingLine : MonoBehaviour, ILine
 
     private void Update()
     {
-        _renderer.SetPositions(new[] { player.transform.position, point.transform.position });
+        _renderer.SetPositions(new[] { playerCollider.bounds.center, point.transform.position });
     }
 }
