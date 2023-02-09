@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 
@@ -24,11 +26,20 @@ public class Player : MonoBehaviour
     private float _timeSinceLastJump = 0;
 
     private bool _grounded = false;
+    
+    private Animator _animator;
+    private bool _facingLeft = false;
+    
+    private static readonly int AnimationPropertyWalkSpeed = Animator.StringToHash("WalkSpeed");
+    private static readonly int AnimationPropertyGrounded = Animator.StringToHash("Grounded");
+    private static readonly int AnimationPropertyFaceLeft = Animator.StringToHash("FaceLeft");
+    private static readonly int AnimationPropertyMoving = Animator.StringToHash("Moving");
 
     private void Start()
     {
         _rigidbody2d = GetComponent<Rigidbody2D>();
         _boxCollider2D = GetComponent<BoxCollider2D>();
+        _animator = GetComponent<Animator>();
     }
 
     private ConnectionPoint GetTouchingPoint()
@@ -51,14 +62,9 @@ public class Player : MonoBehaviour
         return null;
     }
 
-    private void Update()
+    private void HandleConnection()
     {
-        _horizontal = Input.GetAxis("Horizontal");
-        _vertical = Input.GetAxis("Vertical");
-        _jump = Input.GetAxis("Jump");
-        _timeSinceLastJump += Time.deltaTime;
-
-        _connect = Input.GetButtonDown("Fire1");
+               _connect = Input.GetButtonDown("Fire1");
         if (_connect) // user pushed connect button
         {
             // we're touching a point
@@ -112,6 +118,35 @@ public class Player : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void HandleAnimation()
+    {
+        // facingleft is NOT updated when motion is 0 so we can remember the last state
+        if (_horizontal > 0)
+        {
+            _facingLeft = false;
+        }
+        if (_horizontal < 0)
+        {
+            _facingLeft = true;
+        }
+        _animator.SetBool(AnimationPropertyMoving, !(Math.Abs(_horizontal) < 0.1 && Math.Abs(_rigidbody2d.velocity.x) < 0.1));
+        _animator.SetBool(AnimationPropertyGrounded, _grounded);
+        _animator.SetBool(AnimationPropertyFaceLeft, _facingLeft);
+        _animator.SetFloat(AnimationPropertyWalkSpeed, Math.Min(1, Math.Max(Math.Abs(_horizontal), Math.Abs(_rigidbody2d.velocity.x/20))));
+        Debug.Log(_rigidbody2d.velocity.x);
+    }
+    private void Update()
+    {
+        _horizontal = Input.GetAxis("Horizontal");
+        _vertical = Input.GetAxis("Vertical");
+        _jump = Input.GetAxis("Jump");
+        _timeSinceLastJump += Time.deltaTime;
+
+        HandleConnection();
+        
+        HandleAnimation();
     }
 
 
