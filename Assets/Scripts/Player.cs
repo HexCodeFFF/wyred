@@ -178,14 +178,6 @@ public class Player : MonoBehaviour
 
         _rigidbody2d.AddForce(new Vector2((_horizontal) * speed, 0));
     }
-
-    private void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.gameObject.layer == LayerMask.NameToLayer("Test Button"))
-        {
-            Debug.Log(level.Test());
-        }
-    }
     // private bool IsGrounded()
     // {
     //     Physics2D.OverlapBox(_rigidbody2d.position - _rigidbody2d.)

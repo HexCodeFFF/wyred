@@ -169,4 +169,9 @@ public class Level : MonoBehaviour
             _text.text = "You Win!";
         }
     }
+
+    public void ButtonState(bool state)
+    {
+        
+    }
 }
