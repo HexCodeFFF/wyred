@@ -53,7 +53,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4830727792642306403, guid: 747a5a98cb5ade94595f6e6adadc7646, type: 3}
       propertyPath: m_Name
-      value: Connecting
+      value: Connecting Variant
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4830727792642306405, guid: 747a5a98cb5ade94595f6e6adadc7646, type: 3}
@@ -76,4 +76,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   point: {fileID: 0}
-  player: {fileID: 0}
+  playerCollider: {fileID: 0}

@@ -133,8 +133,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1347154399
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5315c2f0a7c23dc4c9a8eb84c9339bdc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -212,7 +212,6 @@ MonoBehaviour:
   jumpDelay: 0.1
   connectingPrefab: {fileID: 7560468863812818203, guid: 48b92ec21e18dde4b98d076c68a2df99, type: 3}
   connectionPrefab: {fileID: 4830727792642306405, guid: 747a5a98cb5ade94595f6e6adadc7646, type: 3}
-  level: {fileID: 0}
   animationMovementThreshold: 0.1
   animationMovementSpeedDivisor: 10
 --- !u!95 &4893020182868238790

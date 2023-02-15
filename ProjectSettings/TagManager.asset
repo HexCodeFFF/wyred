@@ -41,3 +41,27 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: background
+    uniqueID: 1492694947
+    locked: 0
+  - name: tilemap texture
+    uniqueID: 4060931011
+    locked: 0
+  - name: tilemap border
+    uniqueID: 3669511201
+    locked: 0
+  - name: lines
+    uniqueID: 3923590331
+    locked: 0
+  - name: points
+    uniqueID: 799799591
+    locked: 0
+  - name: test button
+    uniqueID: 1357514843
+    locked: 0
+  - name: player
+    uniqueID: 2947812897
+    locked: 0
+  - name: tutorial
+    uniqueID: 1741804523
+    locked: 0

@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
         {
             if (coll.gameObject.layer == LayerMask.NameToLayer("Connection Points"))
             {
-                return coll.GetComponentInParent<ConnectionPoint>();
+                return coll.gameObject.GetComponent<ConnectionPoint>();
             }
         }
 

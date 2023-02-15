@@ -193,8 +193,8 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 799799591
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &9046179891094327029
 MonoBehaviour:
@@ -293,7 +293,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 93ddf6676fe458c459192923c8321e13, type: 3}
     - target: {fileID: 3438689434769381779, guid: 9080e138b37ace349b952cca2d068adb, type: 3}
       propertyPath: m_Name
-      value: Labeled Point
+      value: Labeled Point Variant
       objectReference: {fileID: 0}
     - target: {fileID: 7747568667995801974, guid: 9080e138b37ace349b952cca2d068adb, type: 3}
       propertyPath: onSprite

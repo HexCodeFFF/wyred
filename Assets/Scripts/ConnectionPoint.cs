@@ -11,7 +11,8 @@ public class ConnectionPoint : MonoBehaviour
     public Sprite onSprite;
     [FormerlySerializedAs("is_output")] public bool isOutput;
     // connections
-    public List<IUpdatable> Outputs = new List<IUpdatable>();
+    public List<IUpdatable> Outputs = new();
+    public List<SpriteRenderer> visualWires = new();
     public ConnectionLine input;
     public bool on { get; private set; } = false;
     private SpriteRenderer _renderer;
@@ -64,6 +65,11 @@ public class ConnectionPoint : MonoBehaviour
         {
             text.color = Color.white;
         }
+
+        foreach (var wire in visualWires)
+        {
+            wire.color = Color.black;
+        }
     }
 
     void On()
@@ -73,6 +79,10 @@ public class ConnectionPoint : MonoBehaviour
         if (text)
         {
             text.color = Color.black;
+        }
+        foreach (var wire in visualWires)
+        {
+            wire.color = Color.yellow;
         }
     }
 
