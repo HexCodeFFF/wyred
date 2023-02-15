@@ -52,16 +52,25 @@ public class Level : MonoBehaviour
             InvokeRepeating(nameof(UpdateInputs), updateSpeed, updateSpeed);
         }
 
-        if (autoLabelPoints)
+
+        for (int i = 0; i < inputs.Count; i++)
         {
-            for (int i = 0; i < inputs.Count; i++)
+            if (autoLabelPoints)
             {
                 inputs[i].SetText($"Input {i + 1}");
             }
-            for (int i = 0; i < outputs.Count; i++)
+
+            inputs[i].isOutput = true;
+        }
+
+        for (int i = 0; i < outputs.Count; i++)
+        {
+            if (autoLabelPoints)
             {
                 outputs[i].SetText($"Output {i + 1}");
             }
+
+            outputs[i].isOutput = false;
         }
     }
 
@@ -129,6 +138,7 @@ public class Level : MonoBehaviour
                     break;
                 }
             }
+
             _text.text += " | ";
             if (!thisoneiscorrect)
             {
@@ -155,7 +165,6 @@ public class Level : MonoBehaviour
             }
 
             _text.text += "\n";
-
         }
 
         _text.text += correct ? "Level Complete!" : "Check your wiring.";
@@ -185,6 +194,5 @@ public class Level : MonoBehaviour
 
     public void ButtonState(bool state)
     {
-        
     }
 }
