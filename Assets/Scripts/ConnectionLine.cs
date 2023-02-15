@@ -59,6 +59,6 @@ public class ConnectionLine : MonoBehaviour, ILine, IUpdatable
 
     public void OnDestroy()
     {
-        input.outputs.Remove(this);
+        input.Outputs.Remove(this);
     }
 }

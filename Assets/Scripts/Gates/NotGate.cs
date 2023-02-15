@@ -7,7 +7,7 @@ public class NotGate : MonoBehaviour, IGate
 
     void Start()
     {
-        IN.outputs.Add(this);
+        IN.Outputs.Add(this);
         UpdateState();
     }
 

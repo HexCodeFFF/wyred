@@ -6,7 +6,6 @@ public class Tutorial : MonoBehaviour
 {
     public float fadeTime = 0.5f;
     private CanvasGroup _canvasGroup;
-    private TextMeshPro _text;
     private bool _show = false;
     private float _alpha = 0;
 

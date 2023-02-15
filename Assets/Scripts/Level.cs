@@ -17,6 +17,7 @@ public class Level : MonoBehaviour
 
     public String levelName;
     public int levelNumber;
+    public bool autoLabelPoints = true;
     public List<ConnectionPoint> inputs = new();
     public List<ConnectionPoint> outputs = new();
     public List<truthEntry> truthTable = new();
@@ -48,7 +49,19 @@ public class Level : MonoBehaviour
         _textTimeout = 5f;
         if (updateSpeed > 0)
         {
-            InvokeRepeating("UpdateInputs", updateSpeed, updateSpeed);
+            InvokeRepeating(nameof(UpdateInputs), updateSpeed, updateSpeed);
+        }
+
+        if (autoLabelPoints)
+        {
+            for (int i = 0; i < inputs.Count; i++)
+            {
+                inputs[i].SetText($"Input {i + 1}");
+            }
+            for (int i = 0; i < outputs.Count; i++)
+            {
+                outputs[i].SetText($"Output {i + 1}");
+            }
         }
     }
 
@@ -145,11 +158,11 @@ public class Level : MonoBehaviour
 
         }
 
-        _text.text += correct ? "Level Complete!" : "Uh oh, something's wrong";
+        _text.text += correct ? "Level Complete!" : "Check your wiring.";
         _textTimeout = 5f;
         if (correct)
         {
-            Invoke("NextLevel", 3);
+            Invoke(nameof(NextLevel), 3);
             complete = true;
         }
 

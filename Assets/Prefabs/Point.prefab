@@ -28,8 +28,8 @@ Transform:
   m_GameObject: {fileID: 3438689434769381779}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -4.49, y: 1.02, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.32, y: 0.32, z: 0.32}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c1f4885fb2bb86044bee2544f072b14f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ed89b2151f660f643a36bc7495943f33, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -98,10 +98,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 732ce524145949d2abc1857834f99c56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offSprite: {fileID: 21300000, guid: c1f4885fb2bb86044bee2544f072b14f, type: 3}
-  onSprite: {fileID: 21300000, guid: 29a35a2d82baa2443ae221b6d2b6f9f3, type: 3}
-  is_output: 0
-  outputs: []
+  offSprite: {fileID: 21300000, guid: ed89b2151f660f643a36bc7495943f33, type: 3}
+  onSprite: {fileID: 21300000, guid: cfe6e4ceea80c18488d03714ea7ecbc4, type: 3}
+  isOutput: 0
   input: {fileID: 0}
 --- !u!58 &5886400881831634832
 CircleCollider2D:
@@ -118,4 +117,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.32
+  m_Radius: 1.3

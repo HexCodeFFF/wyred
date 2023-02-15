@@ -14,8 +14,6 @@ public class Player : MonoBehaviour
     public ConnectingLine connectingPrefab;
     public ConnectionLine connectionPrefab;
 
-    public Level level;
-
     private Rigidbody2D _rigidbody2d;
     private BoxCollider2D _boxCollider2D;
     private float _horizontal;
@@ -94,7 +92,7 @@ public class Player : MonoBehaviour
                             }
 
                             inpoint.input = line;
-                            outpoint.outputs.Add(line);
+                            outpoint.Outputs.Add(line);
                             line.UpdateState();
                         }
                     }
