@@ -10,16 +10,21 @@ public class ConnectionPoint : MonoBehaviour
     public Sprite offSprite;
     public Sprite onSprite;
     [FormerlySerializedAs("is_output")] public bool isOutput;
-    // connections
-    public List<IUpdatable> Outputs = new();
     public List<SpriteRenderer> visualWires = new();
     public ConnectionLine input;
-    public bool on { get; private set; } = false;
-    private SpriteRenderer _renderer;
-    [FormerlySerializedAs("Text")] [FormerlySerializedAs("_text")] public TextMeshProUGUI text;
+
+    [FormerlySerializedAs("Text")] [FormerlySerializedAs("_text")]
+    public TextMeshProUGUI text;
+
     public String setText;
     private bool _initialized = false;
-    
+
+    private SpriteRenderer _renderer;
+
+    // connections
+    public List<IUpdatable> Outputs = new();
+    public bool on { get; private set; }
+
     private void Start()
     {
         _renderer = GetComponent<SpriteRenderer>();
@@ -28,6 +33,7 @@ public class ConnectionPoint : MonoBehaviour
         {
             text.SetText(setText);
         }
+
         SetState(false);
         UpdateConnected(0f);
         _initialized = true;
@@ -45,15 +51,17 @@ public class ConnectionPoint : MonoBehaviour
         }
     }
 
-    public void UpdateConnected(float updateDelay = 0.1f, int depth=-1)
+    public void UpdateConnected(float updateDelay = 0.1f, int depth = -1)
     {
         if (depth == 0)
         {
             return;
         }
+
+        if (Level.Testing && updateDelay > 0) return;
         foreach (var line in Outputs)
         {
-            line.UpdateState(updateDelay, depth-1);
+            line.UpdateState(updateDelay, depth - 1);
         }
     }
 
@@ -80,6 +88,7 @@ public class ConnectionPoint : MonoBehaviour
         {
             text.color = Color.black;
         }
+
         foreach (var wire in visualWires)
         {
             wire.color = Color.yellow;

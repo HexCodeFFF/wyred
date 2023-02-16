@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
 public class Level : MonoBehaviour
 {
-    [Serializable]
-    public struct truthEntry
-    {
-        public List<bool> input;
-        public List<bool> expectedOutput;
-    }
+    public static bool Testing;
 
     public String levelName;
     public int levelNumber;
@@ -22,12 +15,42 @@ public class Level : MonoBehaviour
     public List<ConnectionPoint> outputs = new();
     public List<truthEntry> truthTable = new();
     public GameObject textGameObject;
-    private TextMeshProUGUI _text;
     public bool persistentText = false;
-    private float _textTimeout;
     public float updateSpeed = -1;
-    private int _cycleState = 0;
     public bool complete = false;
+    private int _cycleState;
+    private TextMeshProUGUI _text;
+    private float _textTimeout;
+
+    private void Start()
+    {
+        _text = textGameObject.GetComponent<TextMeshProUGUI>();
+        _text.text = $"Level {levelNumber}: {levelName}";
+        PlayerPrefs.SetInt("Level", levelNumber);
+        _textTimeout = 5f;
+        if (updateSpeed > 0) InvokeRepeating(nameof(UpdateInputs), updateSpeed, updateSpeed);
+
+
+        for (var i = 0; i < inputs.Count; i++)
+        {
+            if (autoLabelPoints) inputs[i].SetText($"Input {i + 1}");
+
+            inputs[i].isOutput = true;
+        }
+
+        for (var i = 0; i < outputs.Count; i++)
+        {
+            if (autoLabelPoints) outputs[i].SetText($"Output {i + 1}");
+
+            outputs[i].isOutput = false;
+        }
+    }
+
+    private void Update()
+    {
+        _textTimeout -= Time.deltaTime;
+        if (_textTimeout <= 0 && !persistentText) _text.text = "";
+    }
 
 
     private int TwoToThe(int the)
@@ -41,43 +64,9 @@ public class Level : MonoBehaviour
         return res;
     }
 
-    private void Start()
-    {
-        _text = textGameObject.GetComponent<TextMeshProUGUI>();
-        _text.text = $"Level {levelNumber}: {levelName}";
-        PlayerPrefs.SetInt("Level", levelNumber);
-        _textTimeout = 5f;
-        if (updateSpeed > 0)
-        {
-            InvokeRepeating(nameof(UpdateInputs), updateSpeed, updateSpeed);
-        }
-
-
-        for (int i = 0; i < inputs.Count; i++)
-        {
-            if (autoLabelPoints)
-            {
-                inputs[i].SetText($"Input {i + 1}");
-            }
-
-            inputs[i].isOutput = true;
-        }
-
-        for (int i = 0; i < outputs.Count; i++)
-        {
-            if (autoLabelPoints)
-            {
-                outputs[i].SetText($"Output {i + 1}");
-            }
-
-            outputs[i].isOutput = false;
-        }
-    }
-
     private void UpdateInputs()
     {
-        //TODO: suspend updates while testing truth table?
-
+        if (Testing) return;
         // cycle through all possible iterations of the inputs via binary
         _cycleState++;
         if (_cycleState >= TwoToThe(inputs.Count))
@@ -93,21 +82,16 @@ public class Level : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        _textTimeout -= Time.deltaTime;
-        if (_textTimeout <= 0 && !persistentText)
-        {
-            _text.text = "";
-        }
-    }
-
     public bool Test()
     {
         if (complete)
         {
             return true;
         }
+
+        if (Testing) return false;
+
+        Testing = true;
 
         _text.text = "";
         bool correct = true;
@@ -175,6 +159,8 @@ public class Level : MonoBehaviour
             complete = true;
         }
 
+        Testing = false;
+
         return correct;
     }
 
@@ -194,5 +180,12 @@ public class Level : MonoBehaviour
 
     public void ButtonState(bool state)
     {
+    }
+
+    [Serializable]
+    public struct truthEntry
+    {
+        public List<bool> input;
+        public List<bool> expectedOutput;
     }
 }

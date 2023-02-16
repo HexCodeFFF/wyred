@@ -18,6 +18,8 @@ public class NotGate : MonoBehaviour, IGate
             return;
         }
 
+        if (Level.Testing && updateDelay > 0) return;
+
         OUT.SetState(!IN.on);
         OUT.UpdateConnected(updateDelay, depth - 1);
     }
