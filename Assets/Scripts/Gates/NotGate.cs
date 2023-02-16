@@ -5,7 +5,7 @@ public class NotGate : MonoBehaviour, IGate
     public ConnectionPoint IN;
     public ConnectionPoint OUT;
 
-    void Start()
+    private void Start()
     {
         IN.Outputs.Add(this);
         UpdateState();
@@ -13,10 +13,7 @@ public class NotGate : MonoBehaviour, IGate
 
     public void UpdateState(float updateDelay = 0.1f, int depth = 100)
     {
-        if (depth == 0)
-        {
-            return;
-        }
+        if (depth == 0) return;
 
         if (Level.Testing && updateDelay > 0) return;
 

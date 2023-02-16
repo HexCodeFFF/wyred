@@ -25,9 +25,6 @@ public class TestButton : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D col)
     {
-        if (col.gameObject.name == "player")
-        {
-            _renderer.sprite = upSprite;
-        }
+        if (col.gameObject.name == "player") _renderer.sprite = upSprite;
     }
 }

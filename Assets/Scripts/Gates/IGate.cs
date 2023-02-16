@@ -1,5 +1,3 @@
-﻿
-public interface IGate: IUpdatable
+﻿public interface IGate : IUpdatable
 {
-    
 }

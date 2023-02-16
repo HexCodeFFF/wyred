@@ -9,7 +9,7 @@ public class TwoInputGate : MonoBehaviour, IGate
         NOR,
         OR,
         XNOR,
-        XOR,
+        XOR
     }
 
     public GateType type = GateType.AND;
@@ -19,7 +19,7 @@ public class TwoInputGate : MonoBehaviour, IGate
     public ConnectionPoint OUT;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         IN1.Outputs.Add(this);
         IN2.Outputs.Add(this);
@@ -27,21 +27,18 @@ public class TwoInputGate : MonoBehaviour, IGate
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
     }
 
     public void UpdateState(float updateDelay, int depth = -1)
     {
-        if (depth == 0)
-        {
-            return;
-        }
+        if (depth == 0) return;
 
         if (Level.Testing && updateDelay > 0) return;
-        bool in1 = IN1.on;
-        bool in2 = IN2.on;
-        bool result = false;
+        var in1 = IN1.on;
+        var in2 = IN2.on;
+        var result = false;
         switch (type)
         {
             case GateType.AND:

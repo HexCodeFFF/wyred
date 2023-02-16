@@ -6,10 +6,11 @@ public class ConnectingLine : MonoBehaviour, ILine
     public ConnectionPoint point;
     public BoxCollider2D playerCollider;
     private LineRenderer _renderer;
+
     private void Start()
     {
         _renderer = GetComponent<LineRenderer>();
-        _renderer.startColor =  Color.black;
+        _renderer.startColor = Color.black;
         _renderer.endColor = Color.black;
     }
 

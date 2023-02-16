@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Title : MonoBehaviour
@@ -23,11 +24,12 @@ public class Title : MonoBehaviour
 
     public void LoadGame()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(PlayerPrefs.GetInt("Level"));
+        SceneManager.LoadScene(PlayerPrefs.GetInt("Level"));
     }
+
     public void NewGame()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        SceneManager.LoadScene(1);
     }
 
     public void Crow()

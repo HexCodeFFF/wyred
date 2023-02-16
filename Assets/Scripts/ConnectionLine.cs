@@ -6,9 +6,9 @@ public class ConnectionLine : MonoBehaviour, ILine, IUpdatable
 {
     public ConnectionPoint input;
     public ConnectionPoint output;
-    public float defaultUpdateDelay = 0.0f;
+    public float defaultUpdateDelay;
     private LineRenderer _renderer;
-    private bool _waitingToUpdate = false;
+    private bool _waitingToUpdate;
 
     private void Start()
     {
@@ -26,10 +26,7 @@ public class ConnectionLine : MonoBehaviour, ILine, IUpdatable
 
     public void UpdateState(float updateDelay = 0.1f, int depth = -1)
     {
-        if (depth == 0)
-        {
-            return;
-        }
+        if (depth == 0) return;
 
         if (Level.Testing && updateDelay > 0) return;
         _renderer.startColor = input.on ? Color.yellow : Color.black;
@@ -47,14 +44,14 @@ public class ConnectionLine : MonoBehaviour, ILine, IUpdatable
         }
     }
 
-    IEnumerator WaitToUpdate(bool state, float updateDelay, int depth = 100)
+    private IEnumerator WaitToUpdate(bool state, float updateDelay, int depth = 100)
     {
         // small intentional delay to allow loops to not break the game
         yield return new WaitForSeconds(updateDelay);
         ReallyUpdate(state, updateDelay, depth);
     }
 
-    void ReallyUpdate(bool state, float updateDelay, int depth = 100)
+    private void ReallyUpdate(bool state, float updateDelay, int depth = 100)
     {
         _waitingToUpdate = false;
         if (Level.Testing && updateDelay > 0) return;

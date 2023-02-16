@@ -1,5 +1,3 @@
-﻿
-public interface ILine
+﻿public interface ILine
 {
-    
 }

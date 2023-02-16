@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -16,8 +15,8 @@ public class ConnectionPoint : MonoBehaviour
     [FormerlySerializedAs("Text")] [FormerlySerializedAs("_text")]
     public TextMeshProUGUI text;
 
-    public String setText;
-    private bool _initialized = false;
+    public string setText;
+    private bool _initialized;
 
     private SpriteRenderer _renderer;
 
@@ -29,82 +28,53 @@ public class ConnectionPoint : MonoBehaviour
     {
         _renderer = GetComponent<SpriteRenderer>();
         text = GetComponentInChildren<TextMeshProUGUI>();
-        if (setText != null && text != null)
-        {
-            text.SetText(setText);
-        }
+        if (setText != null && text != null) text.SetText(setText);
 
         SetState(false);
         UpdateConnected(0f);
         _initialized = true;
     }
 
-    public void SetText(String txt)
+    public void SetText(string txt)
     {
         if (_initialized && text)
-        {
             text.SetText(txt);
-        }
         else
-        {
             setText = txt;
-        }
     }
 
     public void UpdateConnected(float updateDelay = 0.1f, int depth = -1)
     {
-        if (depth == 0)
-        {
-            return;
-        }
+        if (depth == 0) return;
 
         if (Level.Testing && updateDelay > 0) return;
-        foreach (var line in Outputs)
-        {
-            line.UpdateState(updateDelay, depth - 1);
-        }
+        foreach (var line in Outputs) line.UpdateState(updateDelay, depth - 1);
     }
 
-    void Off()
+    private void Off()
     {
         _renderer.sprite = offSprite;
         on = false;
-        if (text)
-        {
-            text.color = Color.white;
-        }
+        if (text) text.color = Color.white;
 
-        foreach (var wire in visualWires)
-        {
-            wire.color = Color.black;
-        }
+        foreach (var wire in visualWires) wire.color = Color.black;
     }
 
-    void On()
+    private void On()
     {
         _renderer.sprite = onSprite;
         on = true;
-        if (text)
-        {
-            text.color = Color.black;
-        }
+        if (text) text.color = Color.black;
 
-        foreach (var wire in visualWires)
-        {
-            wire.color = Color.yellow;
-        }
+        foreach (var wire in visualWires) wire.color = Color.yellow;
     }
 
     public void SetState(bool state)
     {
         if (state)
-        {
             On();
-        }
         else
-        {
             Off();
-        }
     }
 
     public void Toggle()
