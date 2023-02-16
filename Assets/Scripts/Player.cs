@@ -105,6 +105,7 @@ public class Player : MonoBehaviour
                         {
                             Destroy(point.input.gameObject);
                             point.input = null;
+                            point.SetState(false);
                         }
                     }
                 }
