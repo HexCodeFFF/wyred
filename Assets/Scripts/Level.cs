@@ -103,7 +103,8 @@ public class Level : MonoBehaviour
             }
 
             // update the connections instantly
-            for (var i = 0; i < inputs.Count; i++) inputs[i].UpdateConnected(0, 100);
+            foreach (var point in inputs)
+                point.UpdateConnected(0, 100);
 
             // check if output is correct
             var thisoneiscorrect = true;
@@ -161,7 +162,7 @@ public class Level : MonoBehaviour
         }
         else
         {
-            _text.text = "You Win!";
+            _text.text = "You Win!\nThanks for playing Wyred!";
             _audioSource.PlayOneShot(gameWin);
         }
     }
