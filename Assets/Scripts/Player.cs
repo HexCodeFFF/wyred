@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
@@ -18,8 +19,16 @@ public class Player : MonoBehaviour
 
     public float animationMovementThreshold = 0.1f;
     public float animationMovementSpeedDivisor = 10f;
+    public List<AudioClip> steps;
+    public AudioClip unplug;
+    public AudioClip plug;
+    public AudioClip buzz;
+
+    public float footstepFrequency;
 
     private Animator _animator;
+
+    private AudioSource _audioSource;
     private BoxCollider2D _boxCollider2D;
     private bool _connect;
     private ConnectingLine _connectingLine;
@@ -32,12 +41,16 @@ public class Player : MonoBehaviour
     private Rigidbody2D _rigidbody2d;
     private float _timeSinceLastJump;
     private float _vertical;
+    private bool _wasGrounded;
 
     private void Start()
     {
         _rigidbody2d = GetComponent<Rigidbody2D>();
         _boxCollider2D = GetComponent<BoxCollider2D>();
         _animator = GetComponent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
+
+        InvokeRepeating(nameof(FootStep), 0, footstepFrequency);
     }
 
     private void Update()
@@ -56,6 +69,9 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         _grounded = groundCollider.IsTouchingLayers(LayerMask.GetMask("Ground")) && _timeSinceLastJump >= jumpDelay;
+        if (_grounded && !_wasGrounded) _audioSource.PlayOneShot(steps[Random.Range(0, steps.Count - 1)], 1f);
+        _wasGrounded = _grounded;
+
         if (_grounded && (_jump > 0 || _vertical > 0))
         {
             // cancel Y velocity
@@ -110,7 +126,14 @@ public class Player : MonoBehaviour
                             var outpoint = point.isOutput ? point : otherPoint;
                             line.input = outpoint;
                             line.output = inpoint;
-                            if (inpoint.input) Destroy(inpoint.input.gameObject);
+                            if (inpoint.input)
+                            {
+                                Destroy(inpoint.input.gameObject);
+                                _audioSource.PlayOneShot(unplug);
+                            }
+
+                            _audioSource.PlayOneShot(plug);
+                            _audioSource.PlayOneShot(buzz);
 
                             inpoint.input = line;
                             outpoint.Outputs.Add(line);
@@ -122,11 +145,13 @@ public class Player : MonoBehaviour
                         _connectingLine = Instantiate(connectingPrefab);
                         _connectingLine.playerCollider = _boxCollider2D;
                         _connectingLine.point = point;
+                        _audioSource.PlayOneShot(plug);
                         if (!point.isOutput && point.input)
                         {
                             Destroy(point.input.gameObject);
                             point.input = null;
                             point.SetState(false);
+                            _audioSource.PlayOneShot(unplug);
                         }
                     }
                 }
@@ -138,6 +163,7 @@ public class Player : MonoBehaviour
                 {
                     Destroy(_connectingLine.gameObject);
                     _connectingLine = null;
+                    _audioSource.PlayOneShot(unplug);
                 }
             }
         }
@@ -160,6 +186,13 @@ public class Player : MonoBehaviour
             Math.Min(1, Math.Max(Math.Abs(_horizontal),
                 Math.Abs(_rigidbody2d.velocity.x / animationMovementSpeedDivisor)))
         );
+    }
+
+    private void FootStep()
+    {
+        if (!(Math.Abs(_horizontal) < animationMovementThreshold
+              && Math.Abs(_rigidbody2d.velocity.x) < animationMovementThreshold) && _grounded)
+            _audioSource.PlayOneShot(steps[Random.Range(0, steps.Count - 1)], 0.5f);
     }
     // private bool IsGrounded()
     // {

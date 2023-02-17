@@ -15,6 +15,9 @@ public class Title : MonoBehaviour
     public GameObject creditsText;
     public Button exitCredits;
 
+    public AudioSource titleMusic;
+    public GameObject musicPrefab;
+
     private void Start()
     {
         newGame.onClick.AddListener(NewGame);
@@ -39,11 +42,15 @@ public class Title : MonoBehaviour
 
     public void LoadGame()
     {
+        titleMusic.Stop();
+        Instantiate(musicPrefab);
         SceneManager.LoadScene(PlayerPrefs.GetInt("Level"));
     }
 
     public void NewGame()
     {
+        titleMusic.Stop();
+        Instantiate(musicPrefab);
         SceneManager.LoadScene(1);
     }
 

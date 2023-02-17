@@ -18,6 +18,10 @@ public class Level : MonoBehaviour
     public bool persistentText;
     public float updateSpeed = -1;
     public bool complete;
+    public AudioClip error;
+    public AudioClip levelWin;
+    public AudioClip gameWin;
+    private AudioSource _audioSource;
     private int _cycleState;
     private TextMeshProUGUI _text;
     private float _textTimeout;
@@ -25,6 +29,7 @@ public class Level : MonoBehaviour
     private void Start()
     {
         _text = textGameObject.GetComponent<TextMeshProUGUI>();
+        _audioSource = GetComponent<AudioSource>();
         _text.text = $"Level {levelNumber}: {levelName}";
         PlayerPrefs.SetInt("Level", levelNumber);
         _textTimeout = 5f;
@@ -134,6 +139,11 @@ public class Level : MonoBehaviour
         {
             Invoke(nameof(NextLevel), 3);
             complete = true;
+            _audioSource.PlayOneShot(levelWin);
+        }
+        else
+        {
+            _audioSource.PlayOneShot(error);
         }
 
         Testing = false;
@@ -146,9 +156,14 @@ public class Level : MonoBehaviour
         persistentText = true;
         _text.text = "Loading...";
         if (levelNumber + 1 < SceneManager.sceneCountInBuildSettings)
+        {
             SceneManager.LoadScene(levelNumber + 1);
+        }
         else
+        {
             _text.text = "You Win!";
+            _audioSource.PlayOneShot(gameWin);
+        }
     }
 
     public void ButtonState(bool state)
