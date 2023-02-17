@@ -50,6 +50,9 @@ TagManager:
   - name: tilemap border
     uniqueID: 3669511201
     locked: 0
+  - name: gates
+    uniqueID: 802174459
+    locked: 0
   - name: lines
     uniqueID: 3923590331
     locked: 0
