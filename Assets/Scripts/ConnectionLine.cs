@@ -32,11 +32,11 @@ public class ConnectionLine : MonoBehaviour, ILine, IUpdatable
         _renderer.startColor = input.on ? Color.yellow : Color.black;
         if (updateDelay > 0)
         {
-            if (!_waitingToUpdate)
-            {
-                _waitingToUpdate = true;
-                StartCoroutine(WaitToUpdate(input.on, updateDelay, depth));
-            }
+            // if (!_waitingToUpdate)
+            // {
+            _waitingToUpdate = true;
+            StartCoroutine(WaitToUpdate(input.on, updateDelay, depth));
+            // }
         }
         else
         {
