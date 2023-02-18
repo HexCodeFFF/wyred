@@ -1713,15 +1713,16 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Art, Code, Design - https://reticivis.net/
 
-    Photography - Unsplash and Wikimedia
-    Commons
+    Photography - Unsplash
+    and Wikimedia Commons
 
-    Sound Effects - freesound.org: jazzy.junggle.net, rhodesmas, orginal_sound,
-    LittleRobotSoundFactory
+    Sound Effects - freesound.org: jazzy.junggle.net,
+    rhodesmas, orginal_sound, LittleRobotSoundFactory
 
     Music - Graham Kartna
 
-    Font - Braille Institute'
+    Font
+    - Braille Institute'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7ec25300b38847346aa40c9f1963eb3c, type: 2}
   m_sharedMaterial: {fileID: -7905664261764649831, guid: 7ec25300b38847346aa40c9f1963eb3c, type: 2}
